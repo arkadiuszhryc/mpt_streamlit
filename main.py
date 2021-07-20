@@ -244,6 +244,9 @@ I =
 \end{bmatrix}
 ''')
 st.write("""
+Please note that for _n_ assets, _C_ is (_n+1_)x(_n+1_) matrix and _I_ is a vector of _n+1_ length. Resulting _w_ vector
+has _n+1_ elements, from which only the first _n_ are the assets weights.
+
 To determinate the efficient frontier, we can compute weights for a portfolio with minimal variance at a given return
 rate. Such weights can be obtained using another matrix multiplication:
 """)
@@ -273,7 +276,10 @@ I_0 =
    0 \\ 0 \\ \vdots \\ 0 \\ 1 \\ E(r_p)
 \end{bmatrix}
 ''')
-st.write("""
+st.markdown("""
+Similarly to the prior case, for _n_ assets matrix _D_ has size of (_n+2_)x(_n+2_) matrix and _I0_ is a vector with
+_n+2_ elements. Vector _w_ in consequence has _n+2_ length, but only the first _n_ are the assets weights.
+
 With weight of stocks in the portfolio and their expected return rates, we can calculate the expected return of the
 whole portfolio. It is the weighted average of expected return rates of portfolio assets:
 """)
