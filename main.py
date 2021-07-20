@@ -295,4 +295,8 @@ st.latex(r'''
 ''')
 st.write("""
 where: Σ is a covariance matrix.
+
+## Licence and source code
+Application is available under MIT license. The source code can be accessed on
+![GitHub](https://github.com/arkadiuszhryc/mpt_streamlit)
 """)
