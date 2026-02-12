@@ -1,6 +1,5 @@
-altair<5
+altair
 numpy
 pandas
 requests
 streamlit
-standard-imghdr

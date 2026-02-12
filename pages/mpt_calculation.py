@@ -66,7 +66,7 @@ with st.spinner("Fetching data, please wait..."):
     data = data.sort_values(by="Date")
     data.iloc[:, 1:] = data.iloc[:, 1:].astype("float")
     data = data.set_index("Date")
-    data.fillna(method="ffill")
+    data = data.ffill()
 
 with st.spinner("Computing..."):
     log_ret = np.log(data) - np.log(data.shift(1))
@@ -226,29 +226,16 @@ with st.spinner("Computing..."):
     r_sigma["r"] = r_sigma["r"] * 252
     r_sigma["sigma"] = r_sigma["sigma"] * math.sqrt(252)
 
-    ef_chart = (
-        alt.Chart(r_sigma)
-        .mark_circle()
-        .encode(
-            alt.X(
-                "sigma",
-                scale=alt.Scale(zero=False),
-                axis=alt.Axis(format="%", title="standard deviation (annual)"),
-            ),
-            alt.Y(
-                "r",
-                scale=alt.Scale(zero=False),
-                axis=alt.Axis(format="%", title="expected return rate (annual)"),
-            ),
-            tooltip=[
-                alt.Tooltip("r", format="p", title="return rate"),
-                alt.Tooltip("sigma", format="r", title="standard deviation"),
-            ],
-        )
-        .interactive()
-    )
 
 st.write("""
 Efficient frontier:
 """)
-st.altair_chart(ef_chart, use_container_width=True)
+
+st.scatter_chart(
+    data=r_sigma,
+    x="sigma",
+    y="r",
+    x_label="standard deviation (annual)",
+    y_label="expected return rate (annual)",
+    use_container_width=True,
+)
