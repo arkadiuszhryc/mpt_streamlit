@@ -16,7 +16,7 @@ st.write("""
 
 _A web app by Arkadiusz Hryc_
 
-This script allows to find the minimum variance portfolio (MVP) based for stocks available via [Stooq](stooq.com) and to
+This script allows to find the minimum variance portfolio (MVP) based for stocks available via [Stooq](https://stooq.com/) and to
 plot the efficient frontier.
 
 For detailed information about the calculation procedure of MVP and efficient frontier, please see the
@@ -27,7 +27,7 @@ For detailed information about the calculation procedure of MVP and efficient fr
 
 tickers = st.text_input(
     label="Please enter tickers from Stooq (separated by comma and space):",
-    value="pko, dnp, pkn",
+    value="pko, pzu, pkn",
 )
 ticker_list = tickers.split(", ")
 
@@ -226,16 +226,31 @@ with st.spinner("Computing..."):
     r_sigma["r"] = r_sigma["r"] * 252
     r_sigma["sigma"] = r_sigma["sigma"] * math.sqrt(252)
 
+    ef_chart = (
+        alt.Chart(r_sigma)
+        .mark_circle()
+        .encode(
+            alt.X(
+                "sigma",
+                scale=alt.Scale(zero=False),
+                axis=alt.Axis(format="%", title="standard deviation (annual)"),
+            ),
+            alt.Y(
+                "r",
+                scale=alt.Scale(zero=False),
+                axis=alt.Axis(format="%", title="expected return rate (annual)"),
+            ),
+            tooltip=[
+                alt.Tooltip("r", format="p", title="return rate"),
+                alt.Tooltip("sigma", format="r", title="standard deviation"),
+            ],
+        )
+        .interactive()
+    )
+
 
 st.write("""
 Efficient frontier:
 """)
 
-st.scatter_chart(
-    data=r_sigma,
-    x="sigma",
-    y="r",
-    x_label="standard deviation (annual)",
-    y_label="expected return rate (annual)",
-    use_container_width=True,
-)
+st.altair_chart(ef_chart, width="stretch")
