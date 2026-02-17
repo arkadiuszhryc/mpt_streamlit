@@ -132,7 +132,7 @@ with st.spinner("Computing..."):
                 stock_data_cov.to_numpy(),
             ),
             stock_data["w"].to_numpy().reshape(len(log_ret.columns), 1),
-        )
+        ).item()
     ) * math.sqrt(252)
 
     min_portfolio = pd.DataFrame(
@@ -213,7 +213,7 @@ with st.spinner("Computing..."):
                     stock_data_cov.to_numpy(),
                 ),
                 r_sigma.iloc[i, 1:].to_numpy().reshape(len(log_ret.columns), 1),
-            )
+            ).item()
         )
         rows2 = np.append(
             rows2, np.append(sigma, r_sigma.iloc[i, 0]).reshape(1, 2), axis=0
